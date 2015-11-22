@@ -29,15 +29,15 @@ using HDF5
 using DecisionTree
 
 function pp(M)
-    const MEAN = M - mean(M)
-    return MEAN ./ sqrt(sumabs2(MEAN, 2))
+    const MIN = minimum(M, 2)
+    return (M .- MIN) ./ (maximum(M, 2) - MIN)
 end
 
 function main(DATA_PATH::String)
 
     const X_TRAIN = pp(h5read("$(DATA_PATH)/trainX.h5", "gsv/train/X/data"))
     const Y_TRAIN = h5read("$(DATA_PATH)/trainY.h5", "gsv/train/Y/data")
-    
+
     println("Training the classifier")
     # Train random forest with
     # 20 for number of features chosen at each random split,
