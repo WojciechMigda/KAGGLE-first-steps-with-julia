@@ -30,7 +30,10 @@ using DecisionTree
 
 function pp(M)
     const MIN = minimum(M, 2)
-    return (M .- MIN) ./ (maximum(M, 2) - MIN)
+    const NORM = (M .- MIN) ./ (maximum(M, 2) - MIN)
+    const SHIFT = NORM + 0.5 .- mean(NORM, 2)
+    
+    return map(x -> max(x, 0.0), map(x -> min(x, 1.0), SHIFT))
 end
 
 function main(DATA_PATH::String)
