@@ -62,7 +62,12 @@ function main(DATA_PATH::String)
     
     h5write("$(DATA_PATH)/trainX.h5", "gsv/train/X/data", X_TRAIN)
     h5write("$(DATA_PATH)/trainY.h5", "gsv/train/Y/data", Y_TRAIN)
+
     h5write("$(DATA_PATH)/testX.h5", "gsv/test/X/data", X_TEST)
+    fid = h5open("$(DATA_PATH)/testX.h5", "r+")
+    labels_dset = d_create(fid, "gsv/test/X/labels", datatype(Int), dataspace(size(TEST_FEAT_LABELS[:, 1])))
+    labels_dset[:] = int(TEST_FEAT_LABELS[:, 1])
+    close(fid)
 
 end
 
